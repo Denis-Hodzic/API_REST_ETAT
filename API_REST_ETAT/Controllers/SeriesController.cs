@@ -22,7 +22,7 @@ namespace API_REST_ETAT.Controllers
 
         // GET: api/Series
         [HttpGet]
-        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<IEnumerable<Serie>>> GetSeries()
         {
             return await _context.Series.ToListAsync();
@@ -30,6 +30,8 @@ namespace API_REST_ETAT.Controllers
 
         // GET: api/Series/5
         [HttpGet("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<ActionResult<Serie>> GetSerie(int id)
         {
             var serie = await _context.Series.FindAsync(id);
@@ -45,6 +47,10 @@ namespace API_REST_ETAT.Controllers
         // PUT: api/Series/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> PutSerie(int id, Serie serie)
         {
             if (id != serie.Serieid)

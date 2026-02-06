@@ -15,8 +15,14 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+app.UseCors(policy =>
+    policy.WithOrigins("https://apiseriesv10-d6hndsd5fnc6drgt.switzerlandnorth-01.azurewebsites.net/")
+          .AllowAnyOrigin()
+          .AllowAnyMethod()
+          .AllowAnyHeader());
+
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+//if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();

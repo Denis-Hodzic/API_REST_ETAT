@@ -76,7 +76,7 @@
                     x:Name="TbSaisons"
                     Width="120"
                     Height="34"
-                    Text="{Binding Nbsaisons,Mode=TwoWay}"
+                    Text="{Binding SerieToAdd.Nbsaisons,Mode=TwoWay}"
                     Background="#2A2A2A"
                     BorderBrush="#3A3A3A"
                     Foreground="#FFFFFF"
@@ -100,7 +100,7 @@
                     x:Name="TbEpisodes"
                     Width="120"
                     Height="34"
-                    Text="{Binding Nbepisodes,Mode=TwoWay}"
+                    Text="{Binding SerieToAdd.Nbepisodes,Mode=TwoWay}"
                     Background="#2A2A2A"
                     BorderBrush="#3A3A3A"
                     Foreground="#FFFFFF"
@@ -124,7 +124,7 @@
                     x:Name="TbAnnee"
                     Width="120"
                     Height="34"
-                    Text="{Binding Anneecreation,Mode=TwoWay}"
+                    Text="{Binding SerieToAdd.Anneecreation,Mode=TwoWay}"
                     Background="#2A2A2A"
                     BorderBrush="#3A3A3A"
                     Foreground="#FFFFFF"
@@ -148,7 +148,7 @@
                     x:Name="TbChaine"
                     Height="34"
                     Width="320"
-                    Text="{Binding Network, Mode=TwoWay}"
+                    Text="{Binding SerieToAdd.Network, Mode=TwoWay}"
                     Background="#2A2A2A"
                     BorderBrush="#3A3A3A"
                     Foreground="#FFFFFF"
@@ -170,7 +170,7 @@
                     RelativePanel.Below="TbChaine"
                     RelativePanel.AlignHorizontalCenterWithPanel="True"
                     Margin="0,22,0,0"
-                    Command="BtnSetAjout"/>
+                    Command="{Binding BtnSetAjout}"/>
 
     </RelativePanel>
 </Page>

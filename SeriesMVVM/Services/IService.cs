@@ -9,6 +9,10 @@ namespace SeriesMVVM.Services
 {
     public interface IService
     {
-        Task<List<Serie>> GetSerieAsync(string nomControleur);
+        Task<List<Serie>?> GetAllSeriesAsync(string controller);
+        Task<Serie?> GetSerieAsync(string controller, int id);
+        Task<bool> PostSerieAsync(string controller, Serie serie);
+        Task<bool> PutSerieAsync(string controller, int id, Serie serie);
+        Task<bool> DeleteSerieAsync(string controller, int id);
     }
 }

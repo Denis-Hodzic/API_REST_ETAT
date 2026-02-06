@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using SeriesMVVM.Models.EntityFramework;
+using SeriesMVVM.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,24 +16,59 @@ namespace SeriesMVVM.ViewModels
     public class SeriePageMVVM:ObservableObject
     {
         public event EventHandler<string>? MessageRequested;
+
+        private readonly IService service;
+
+        [ObservableProperty]
+        private Serie serieToAdd;
+
         public IRelayCommand BtnSetAjout { get; }
 
         public SeriePageMVVM()
         {
-            BtnSetAjout = new RelayCommand(ActionSetAjout);
-            GetDataOnloadAsync();
+            this.service = service;
+            BtnSetAjout = new AsyncRelayCommand(ActionSetAjout);
+
+            serieToAdd = new Serie
+            {
+                Titre = "",
+                Resume = "",
+                Nbsaisons = 0,
+                Nbepisodes = 0,
+                Anneecreation = 0,
+                Network = ""
+            };
         }
 
-        public void ActionSetAjout()
+        public async Task ActionSetAjout()
         {
-            //if (SerieSelected != null)
-            //{
-            //    Euro = Montant / SerieSelected.Taux;
-            //}
-            //else
-            //{
-            //    MessageRequested?.Invoke(this, "Veuillez sélectionner une Serie");
-            //}
+            if (string.IsNullOrWhiteSpace(SerieToAdd.Titre))
+            {
+                MessageRequested?.Invoke(this, "Titre obligatoire.");
+                return;
+            }
+
+            bool ok = await service.PostSerieAsync("series", SerieToAdd);
+
+            if (ok)
+            {
+                MessageRequested?.Invoke(this, "Série ajoutée");
+                // reset
+                SerieToAdd = new Serie
+                {
+                    Titre = "",
+                    Resume = "",
+                    Nbsaisons = 0,
+                    Nbepisodes = 0,
+                    Anneecreation = 0,
+                    Network = ""
+                };
+            }
+            else
+            {
+                MessageRequested?.Invoke(this, "Erreur lors de l'ajout .");
+            }
+
         }
 
 

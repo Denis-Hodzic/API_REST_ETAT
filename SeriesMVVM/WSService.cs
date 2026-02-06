@@ -26,17 +26,71 @@ namespace SeriesMVVM
             httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
-
-        public async Task<List<Serie>> GetSerieAsync(string nomControleur)
+        public async Task<List<Serie?>> GetSerieAsync(string controller, int id)
         {
             try
             {
-                return await httpClient.GetFromJsonAsync<List<Serie>>(nomControleur);
+                // api/series/1 -> controller = "series"
+                var url = string.Concat(controller.TrimEnd('/'), "/", id);
+                return await httpClient.GetFromJsonAsync<Serie>(url);
+            }
+            catch
+            {
+                return null;
+            }
+        }
+        public async Task<List<Serie>?> GetAllSeriesAsync(string controller)
+        {
+            try
+            {
+                return await httpClient.GetFromJsonAsync<List<Serie>>(controller);
             }
             catch (Exception)
             {
                 return null;
             }
         }
+
+        public async Task<bool> PostSerieAsync(string controller, Serie serie)
+        {
+            try
+            {
+                var resp = await httpClient.PostAsJsonAsync(controller, serie);
+                return resp.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> PutSerieAsync(string controller, int id, Serie serie)
+        {
+            try
+            {
+                var url = string.Concat(controller.TrimEnd('/'), "/", id);
+                var resp = await httpClient.PutAsJsonAsync(url, serie);
+                return resp.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> DeleteSerieAsync(string controller, int id)
+        {
+            try
+            {
+                var url = string.Concat(controller.TrimEnd('/'), "/", id);
+                var resp = await httpClient.DeleteAsync(url);
+                return resp.IsSuccessStatusCode;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

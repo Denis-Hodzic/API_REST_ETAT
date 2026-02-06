@@ -1,4 +1,5 @@
-﻿using Microsoft.UI.Xaml;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Data;
@@ -15,6 +16,8 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using SeriesMVVM.Views;
+using SeriesMVVM.ViewModels;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,6 +30,8 @@ namespace SeriesMVVM
     public partial class App : Application
     {
         private Window? _window;
+        public static FrameworkElement MainRoot { get; private set; }
+        public ServiceProvider Services { get; }
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -35,7 +40,14 @@ namespace SeriesMVVM
         public App()
         {
             InitializeComponent();
+            ServiceCollection services = new ServiceCollection();
+            //view models
+            services.AddTransient<SeriePageMVVM>();
+            Services = services.BuildServiceProvider();
         }
+
+
+        public new static App Current => (App)Application.Current;
 
         /// <summary>
         /// Invoked when the application is launched.
@@ -44,7 +56,15 @@ namespace SeriesMVVM
         protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
         {
             _window = new MainWindow();
+            MainRoot = _window.Content as FrameworkElement;
+            //Create a Frame to act as the navigation context and navigate to the first page
+            Frame rootFrame = new Frame();
+            // Place the frame in the current Window
+            this._window.Content = rootFrame;
+            // Ensure the current window is active
             _window.Activate();
+            // Navigate to the first page
+            rootFrame.Navigate(typeof(SeriePage));
         }
     }
 }

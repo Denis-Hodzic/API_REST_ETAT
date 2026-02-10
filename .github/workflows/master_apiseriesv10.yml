@@ -24,7 +24,7 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet publish API_REST_ETAT/API_REST_ETAT.csproj -c Release -o publish
 
       - name: dotnet publish
         run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
@@ -62,4 +62,5 @@ jobs:
           app-name: 'apiseriesV10'
           slot-name: 'Production'
           package: .
+
           

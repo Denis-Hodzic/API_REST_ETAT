@@ -26,7 +26,7 @@ namespace SeriesMVVM
             httpClient.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
         }
-        public async Task<List<Serie?>> GetSerieAsync(string controller, int id)
+        public async Task<Serie?> GetSerieAsync(string controller, int id)
         {
             try
             {

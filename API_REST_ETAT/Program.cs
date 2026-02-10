@@ -5,6 +5,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
+var cs = builder.Configuration.GetConnectionString("SeriesDbContext");
+Console.WriteLine($"[BOOT] SeriesDbContext CS is {(string.IsNullOrWhiteSpace(cs) ? "NULL/EMPTY" : "SET")}");
+
+
 builder.Services.AddDbContext<SeriesDbContext>(options =>
   options.UseNpgsql(builder.Configuration.GetConnectionString("SeriesDbContext")));
 
@@ -16,7 +20,7 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseCors(policy =>
-    policy.WithOrigins("https://apiseriesv10-d6hndsd5fnc6drgt.switzerlandnorth-01.azurewebsites.net/")
+    policy.WithOrigins("https://apiseriesv10-d6hndsd5fnc6drgt.switzerlandnorth-01.azurewebsites.net")
           .AllowAnyOrigin()
           .AllowAnyMethod()
           .AllowAnyHeader());

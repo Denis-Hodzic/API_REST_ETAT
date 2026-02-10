@@ -26,7 +26,8 @@ namespace SeriesMVVM.ViewModels
 
         public SeriePageMVVM()
         {
-            this.service = new WSService("https://apiseriesv10-d6hndsd5fnc6drgt.switzerlandnorth-01.azurewebsites.net/");
+            this.service = new WSService("https://apiseriesv10-d6hndsd5fnc6drgt.switzerlandnorth-01.azurewebsites.net/api/");
+
             BtnSetAjout = new AsyncRelayCommand(ActionSetAjout);
 
             serieToAdd = new Serie
@@ -74,7 +75,7 @@ namespace SeriesMVVM.ViewModels
 
         public async Task GetDataOnloadAsync()
         {
-            List<Serie>? result = await service.GetAllSeriesAsync("Series");
+            List<Serie>? result = await service.GetAllSeriesAsync("series");
 
             //if (result == null)
             //    MessageRequested?.Invoke(this, "Erreur de connexion au service Web");
